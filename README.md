@@ -1,151 +1,174 @@
+# Stable Diffusion Web UI - Hunyuan3D 2.1 Integration
 
-<p align="center">
-  <img src="assets/images/teaser.jpg">
-</p>
+这是一个集成了 **Hunyuan3D 2.1** 的 Stable Diffusion Web UI 版本，专为3D资产生成和纹理合成而优化。
 
+![](screenshot.png)
 
-<div align="center">
-  <a href=https://3d.hunyuan.tencent.com target="_blank"><img src=https://img.shields.io/badge/Official%20Site-333399.svg?logo=homepage height=22px></a>
-  <a href=https://huggingface.co/spaces/tencent/Hunyuan3D-2.1  target="_blank"><img src=https://img.shields.io/badge/%F0%9F%A4%97%20Demo-276cb4.svg height=22px></a>
-  <a href=https://huggingface.co/tencent/Hunyuan3D-2.1 target="_blank"><img src=https://img.shields.io/badge/%F0%9F%A4%97%20Models-d96902.svg height=22px></a>
-  <a href=https://3d-models.hunyuan.tencent.com/ target="_blank"><img src= https://img.shields.io/badge/Page-bb8a2e.svg?logo=github height=22px></a>
-  <a href=https://discord.gg/dNBrdrGGMa target="_blank"><img src= https://img.shields.io/badge/Discord-white.svg?logo=discord height=22px></a>
-  <a href=https://arxiv.org/pdf/2506.15442 target="_blank"><img src=https://img.shields.io/badge/Report-b5212f.svg?logo=arxiv height=22px></a>
-  <a href=https://x.com/TencentHunyuan target="_blank"><img src=https://img.shields.io/badge/Hunyuan-black.svg?logo=x height=22px></a>
- <a href="#community-resources" target="_blank"><img src=https://img.shields.io/badge/Community-lavender.svg?logo=homeassistantcommunitystore height=22px></a>
-</div>
+## 🎯 项目概述
 
-[//]: # (  <a href=# target="_blank"><img src=https://img.shields.io/badge/Report-b5212f.svg?logo=arxiv height=22px></a>)
+本项目是 [Hunyuan3D-2.1](https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1) 工作区的一部分，提供了一个增强的 Stable Diffusion Web UI，支持：
 
-[//]: # (  <a href=# target="_blank"><img src= https://img.shields.io/badge/Colab-8f2628.svg?logo=googlecolab height=22px></a>)
+- **3D形状生成**: 从图像生成高质量3D网格
+- **PBR纹理合成**: 基于物理的渲染纹理生成
+- **Blender集成**: 通过 BlenderMCP 直接与 Blender 交互
+- **API服务**: 完整的REST API支持3D生成工作流
 
-[//]: # (  <a href="#"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/v/mulankit?logo=pypi"  height=22px></a>)
-<br>
+## 🔗 相关组件
 
-## 🔥 News
-
-- Jul 26, 2025: 🤗 We release the first open-source, simulation-capable, immersive 3D world generation model, [HunyuanWorld-1.0](https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0)!
-- Jun 19, 2025: 👋 We present the [technical report](https://arxiv.org/pdf/2506.15442) of Hunyuan3D-2.1, please check out the details and spark some discussion!
-- Jun 13, 2025: 🤗 We release the first production-ready 3D asset generation model, Hunyuan3D-2.1!
-
-> Join our **[Wechat](#)** and **[Discord](https://discord.gg/dNBrdrGGMa)** group to discuss and find help from us.
-
-| Wechat Group                                     | Xiaohongshu                                           | X                                           | Discord                                           |
-|--------------------------------------------------|-------------------------------------------------------|---------------------------------------------|---------------------------------------------------|
-| <img src="assets/qrcode/wechat.png"  height=140> | <img src="assets/qrcode/xiaohongshu.png"  height=140> | <img src="assets/qrcode/x.png"  height=140> | <img src="assets/qrcode/discord.png"  height=140> |        
-
-## 🤗 Community Contribution Leaderboard
-1. By [@visualbruno](https://github.com/visualbruno)
-  - ComfyUI-Hunyuan3d-2-1: https://github.com/visualbruno/ComfyUI-Hunyuan3d-2-1
-2. By [@VR-Jobs](https://github.com/VR-Jobs)
-  - Hunyuan3d-2-1 Unity Support: https://github.com/VR-Jobs/Hunyuan3D-2.1-Unity-XR-PC-Phone
-
-## ☯️ **Hunyuan3D 2.1**
-
-### Architecture
-
-Tencent Hunyuan3D-2.1 is a scalable 3D asset creation system that advances state-of-the-art 3D generation through two pivotal innovations: Fully Open-Source Framework and  Physically-Based Rendering (PBR) Texture Synthesis. For the first time, the system releases full model weights and training code, enabling community developers to directly fine-tune and extend the model for diverse downstream applications. This transparency accelerates academic research and industrial deployment. Moreover, replacing the prior RGB-based texture model, the upgraded PBR pipeline leverages  physics-grounded material simulation  to generate textures with photorealistic light interaction (e.g., metallic reflections, subsurface scattering).
-
-<p align="left">
-  <img src="assets/images/pipeline.png">
-</p>
-
-### Performance
-
-We have evaluated Hunyuan3D 2.1 with other open-source as well as close-source 3d-generation methods.
-The numerical results indicate that Hunyuan3D 2.1 surpasses all baselines in the quality of generated textured 3D assets
-and the condition following ability.
-
-| Model                   | ULIP-T(⬆)   | ULIP-I(⬆) | Uni3D-T(⬆)      | Uni3D-I(⬆) |
-|-------------------------|-----------|-------------|-------------|---------------|
-| Michelangelo  | 0.0752     | 0.1152      | 0.2133     | 0.2611         |
-| Craftsman | 0.0745     | 0.1296      | 0.2375     | 0.2987         |
-| TripoSG | 0.0767     | 0.1225      | 0.2506     | 0.3129       |
-| Step1X-3D | 0.0735     | 0.1183      | 0.2554     | 0.3195         |
-| Trellis | 0.0769     | 0.1267      | 0.2496     | 0.3116         |
-| Direct3D-S2 | 0.0706     | 0.1134      | 0.2346     | 0.2930         |
-| Hunyuan3D-Shape-2.1           | **0.0774** | **0.1395**  | **0.2556** | **0.3213** |
+- **主项目**: [Hunyuan3D-2.1](../README.md) - 腾讯混元3D 2.1 主要框架
+- **Blender集成**: [BlenderMCP](../blender-mcp/README.md) - Blender与Claude AI的MCP集成
+- **3D形状生成**: [hy3dshape](../hy3dshape/README.md) - 3D形状生成模块
+- **纹理生成**: [hy3dpaint](../hy3dpaint/README.md) - PBR纹理合成模块
 
 
-| Model                   | CLIP-FiD(⬇)   | CMMD(⬇) | CLIP-I(⬆)      | LPIPS(⬇) |
-|-------------------------|-----------|-------------|-------------|---------------|
-| SyncMVD-IPA  | 28.39     | 2.397      | 0.8823     | 0.1423         |
-| TexGen | 28.24     | 2.448      | 0.8818     | 0.1331         |
-| Hunyuan3D-2.0 | 26.44     | 2.318     | 0.8893     | 0.1261         |
-| Hunyuan3D-Paint-2.1           | **24.78** | **2.191**  | **0.9207** | **0.1211**     |
+- [Segmind Stable Diffusion](https://huggingface.co/segmind/SSD-1B) support
 
+## 🚀 安装和运行
 
+### 系统要求
 
-## 🎁 Models Zoo
+- **GPU内存**: 
+  - 形状生成: 10GB VRAM
+  - 纹理生成: 21GB VRAM  
+  - 完整流程: 29GB VRAM
+- **Python**: 3.10 或更高版本
+- **PyTorch**: 2.5.1+cu124 (推荐)
 
-It takes 10 GB VRAM for shape generation, 21GB for texture generation and 29GB for shape and texture generation in total.
+### 快速开始
 
-
-| Model                      | Description                 | Date       | Size | Huggingface                                                                               |
-|----------------------------|-----------------------------|------------|------|-------------------------------------------------------------------------------------------| 
-| Hunyuan3D-Shape-v2-1         | Image to Shape Model        | 2025-06-14 | 3.3B | [Download](https://huggingface.co/tencent/Hunyuan3D-2.1/tree/main/hunyuan3d-dit-v2-1)         |
-| Hunyuan3D-Paint-v2-1       | Texture Generation Model    | 2025-06-14 | 2B | [Download](https://huggingface.co/tencent/Hunyuan3D-2.1/tree/main/hunyuan3d-paintpbr-v2-1)       |
-
-
-## 🤗 Get Started with Hunyuan3D 2.1
-
-Hunyuan3D 2.1 supports Macos, Windows, Linux. You may follow the next steps to use Hunyuan3D 2.1 via:
-
-### Install Requirements
-We test our model with Python 3.10 and PyTorch 2.5.1+cu124.
+1. **安装依赖**:
 ```bash
+# 安装PyTorch (CUDA 12.4)
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124
-pip install -r requirements.txt
 
+# 安装项目依赖
+pip install -r requirements.txt
+```
+
+2. **编译自定义组件**:
+```bash
+# 编译纹理生成组件
 cd hy3dpaint/custom_rasterizer
 pip install -e .
 cd ../..
+
+# 编译渲染器
 cd hy3dpaint/DifferentiableRenderer
 bash compile_mesh_painter.sh
 cd ../..
+```
 
+3. **下载预训练模型**:
+```bash
+# 下载RealESRGAN模型
 wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth -P hy3dpaint/ckpt
 ```
 
-### Code Usage
+4. **启动Web UI**:
+```bash
+# 标准模式
+python webui.py
 
-We designed a diffusers-like API to use our shape generation model - Hunyuan3D-Shape and texture synthesis model -
-Hunyuan3D-Paint.
+# 低显存模式
+python webui.py --lowvram
+
+# 集成Hunyuan3D模式
+python ../gradio_app.py --model_path tencent/Hunyuan3D-2.1 --subfolder hunyuan3d-dit-v2-1 --texgen_model_path tencent/Hunyuan3D-2.1 --low_vram_mode
+```
+
+### 传统安装方式
+
+如需使用原版Stable Diffusion WebUI功能，请参考:
+- [NVidia GPU安装指南](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-NVidia-GPUs) (推荐)
+- [AMD GPU安装指南](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Install-and-Run-on-AMD-GPUs)
+- [Intel处理器安装指南](https://github.com/openvinotoolkit/stable-diffusion-webui/wiki/Installation-on-Intel-Silicon)
+
+### 在线服务
+
+- [在线服务列表](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Online-Services)
+- [Hunyuan3D官方Demo](https://huggingface.co/spaces/tencent/Hunyuan3D-2.1)
+
+
+## 🎨 Hunyuan3D 特色功能
+
+### 3D资产生成工作流
 
 ```python
 import sys
 sys.path.insert(0, './hy3dshape')
 sys.path.insert(0, './hy3dpaint')
-from textureGenPipeline import Hunyuan3DPaintPipeline
 from textureGenPipeline import Hunyuan3DPaintPipeline, Hunyuan3DPaintConfig
 from hy3dshape.pipelines import Hunyuan3DDiTFlowMatchingPipeline
 
-# let's generate a mesh first
+# 1. 生成3D网格
 shape_pipeline = Hunyuan3DDiTFlowMatchingPipeline.from_pretrained('tencent/Hunyuan3D-2.1')
 mesh_untextured = shape_pipeline(image='assets/demo.png')[0]
 
+# 2. 生成PBR纹理
 paint_pipeline = Hunyuan3DPaintPipeline(Hunyuan3DPaintConfig(max_num_view=6, resolution=512))
 mesh_textured = paint_pipeline(mesh_path, image_path='assets/demo.png')
 ```
 
+### API服务
 
-### Gradio App
-
-You could also host a [Gradio](https://www.gradio.app/) App in your own computer via:
-
-
+启动API服务器:
 ```bash
-python3 gradio_app.py \
-  --model_path tencent/Hunyuan3D-2.1 \
-  --subfolder hunyuan3d-dit-v2-1 \
-  --texgen_model_path tencent/Hunyuan3D-2.1 \
-  --low_vram_mode
+python ../api_server.py
 ```
 
+使用API生成3D模型:
+```python
+import requests
 
-## 🔗 BibTeX
+# 上传图像并生成3D模型
+response = requests.post('http://localhost:8000/generate_3d', 
+                        files={'image': open('input.jpg', 'rb')},
+                        data={'prompt': 'a cute cat'})
+result = response.json()
+```
 
-If you found this repository helpful, please cite our reports:
+### Blender集成
+
+通过BlenderMCP，可以直接在Blender中使用Claude AI进行3D建模:
+
+1. 安装Blender插件: `../blender-mcp/addon.py`
+2. 配置Claude Desktop MCP服务器
+3. 在Claude中直接描述需要的3D模型，AI将自动在Blender中创建
+
+### 模型性能
+
+| 模型组件 | VRAM需求 | 生成时间 | 输出格式 |
+|---------|----------|----------|----------|
+| Hunyuan3D-Shape | 10GB | ~30秒 | .obj/.ply |
+| Hunyuan3D-Paint | 21GB | ~60秒 | PBR材质 |
+| 完整流程 | 29GB | ~90秒 | 带纹理3D模型 |
+
+## 🤝 贡献指南
+
+欢迎为本项目贡献代码！请参考:
+- [原版贡献指南](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/Contributing)
+- [Hunyuan3D项目贡献](https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1)
+
+## 📚 文档
+
+- [原版WebUI文档](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki)
+- [Hunyuan3D技术报告](https://arxiv.org/pdf/2506.15442)
+- [BlenderMCP集成指南](../blender-mcp/README.md)
+- [API文档](../API_DOCUMENTATION.md)
+
+## 🙏 致谢
+
+### Hunyuan3D 2.1 集成
+
+本集成版本基于以下优秀项目:
+
+- **Hunyuan3D 2.1** - [Tencent Hunyuan3D Team](https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1)
+- **BlenderMCP** - Blender与Claude AI的MCP集成
+- **原版Stable Diffusion WebUI** - [AUTOMATIC1111](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+
+### 引用
+
+如果您使用了本项目，请引用:
 
 ```bibtex
 @misc{hunyuan3d2025hunyuan3d,
@@ -156,39 +179,8 @@ If you found this repository helpful, please cite our reports:
     archivePrefix={arXiv},
     primaryClass={cs.CV}
 }
-
-@misc{hunyuan3d22025tencent,
-    title={Hunyuan3D 2.0: Scaling Diffusion Models for High Resolution Textured 3D Assets Generation},
-    author={Tencent Hunyuan3D Team},
-    year={2025},
-    eprint={2501.12202},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-}
-
-@misc{yang2024hunyuan3d,
-    title={Hunyuan3D 1.0: A Unified Framework for Text-to-3D and Image-to-3D Generation},
-    author={Tencent Hunyuan3D Team},
-    year={2024},
-    eprint={2411.02293},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-}
 ```
 
-## Acknowledgements
+### 原版致谢
 
-We would like to thank the contributors to
-the [TripoSG](https://github.com/VAST-AI-Research/TripoSG), [Trellis](https://github.com/microsoft/TRELLIS),  [DINOv2](https://github.com/facebookresearch/dinov2), [Stable Diffusion](https://github.com/Stability-AI/stablediffusion), [FLUX](https://github.com/black-forest-labs/flux), [diffusers](https://github.com/huggingface/diffusers), [HuggingFace](https://huggingface.co), [CraftsMan3D](https://github.com/wyysf-98/CraftsMan3D), 
-and [Michelangelo](https://github.com/NeuralCarver/Michelangelo/tree/main) repositories, for their open research and
-exploration.
-
-## Star History
-
-<a href="https://star-history.com/#Tencent-Hunyuan/Hunyuan3D-2.1&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Tencent-Hunyuan/Hunyuan3D-2.1&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Tencent-Hunyuan/Hunyuan3D-2.1&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Tencent-Hunyuan/Hunyuan3D-2.1&type=Date" />
- </picture>
-</a>
+许可证信息可在 `Settings -> Licenses` 界面和 `html/licenses.html` 文件中找到。
