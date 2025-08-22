@@ -1,0 +1,26 @@
+# Core MCP and Blender integration dependencies
+fastmcp>=0.2.0
+requests>=2.31.0
+Pillow>=10.0.0
+
+# AI/ML dependencies for image and 3D generation
+torch>=2.0.0
+torchvision>=0.15.0
+diffusers>=0.21.0
+transformers>=4.30.0
+accelerate>=0.20.0
+
+# Image processing
+opencv-python>=4.8.0
+numpy>=1.24.0
+
+# Note: base64, time, os, re, logging, tempfile, json are Python standard library modules
+# and should not be listed in requirements.txt
+
+# Optional: For better performance with CUDA
+# xformers>=0.0.20  # Uncomment if using CUDA
+
+# Development dependencies (optional)
+# pytest>=7.0.0
+# black>=23.0.0
+# flake8>=6.0.0

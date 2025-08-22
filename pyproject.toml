@@ -1,0 +1,127 @@
+[project]
+name = "hunyuan3d-2-1"
+version = "0.1.0"
+description = "Hunyuan3D 2.1 project configured for uv"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Hunyuan3D Team" }
+]
+license = { file = "LICENSE" }
+keywords = ["3D", "diffusion", "mesh", "text-to-3d", "hunyuan3d"]
+
+dependencies = [
+  "ninja==1.11.1.1",
+  "pybind11==2.13.4",
+
+  # Core ML/Deep Learning
+  "transformers==4.46.0",
+  "diffusers==0.30.0",
+  "accelerate==1.1.1",
+  "pytorch-lightning==1.9.5",
+  "huggingface-hub==0.30.2",
+  "safetensors==0.4.4",
+  # 指定 GPU 版 PyTorch 组件（与 README 对齐）
+  "torch==2.5.1",
+  "torchvision==0.20.1",
+  "torchaudio==2.5.1",
+
+  # Scientific Computing
+  "numpy==1.24.4",
+  "scipy==1.14.1",
+  "einops==0.8.0",
+  "pandas==2.2.2",
+
+  # Computer Vision & Image Processing
+  "opencv-python==4.10.0.84",
+  "imageio==2.36.0",
+  "scikit-image==0.24.0",
+  "rembg==2.0.65",
+  "realesrgan==0.3.0",
+  "tb_nightly==2.18.0a20240726",
+  "basicsr==1.4.2",
+
+  # 3D Mesh Processing
+  "trimesh==4.4.7",
+  "pymeshlab==2022.2.post3",
+  "pygltflib==1.16.3",
+  "xatlas==0.0.9",
+  "open3d==0.18.0",
+
+  # Configuration Management
+  "omegaconf==2.3.0",
+  "pyyaml==6.0.2",
+  "configargparse==1.7",
+
+  # Web Framework (for demo)
+  "gradio==5.33.0",
+  "fastapi==0.115.12",
+  "uvicorn==0.34.3",
+
+  # Utilities
+  "tqdm==4.66.5",
+  "psutil==6.0.0",
+
+  # ONNX Runtime
+  "onnxruntime==1.16.3",
+  "torchmetrics==1.6.0",
+
+  # Others
+  "pydantic==2.10.6",
+  "timm",
+  "pythreejs",
+  "torchdiffeq",
+   "deepspeed; sys_platform == 'linux'",
+]
+
+[project.optional-dependencies]
+# 可选：GPU 相关依赖（按需安装，仅在 Linux 下可用）
+# 使用环境标记避免在 Windows 上参与解析 / 下载
+ gpu = [
+  "cupy-cuda12x==13.4.1; sys_platform == 'linux'",
+]
+# 可选：Blender Python 绑定（体积较大，且跨平台差异较多）
+ blender = [
+  "bpy==4.0; sys_platform == 'linux'",
+]
+
+[tool.uv]
+# 仅为当前项目锁定和同步解析的目标环境（避免解析 Linux / macOS 包）
+# Windows + Python 3.10
+environments = ["sys_platform == 'win32' and python_version == '3.10'"]
+
+# 为特定依赖固定来源（在 Windows 使用 PyTorch CUDA 12.4 官方索引）
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu124", marker = "sys_platform == 'win32'" }
+]
+torchvision = [
+  { index = "pytorch-cu124", marker = "sys_platform == 'win32'" }
+]
+torchaudio = [
+  { index = "pytorch-cu124", marker = "sys_platform == 'win32'" }
+]
+# 如果后续需要 CPU 版，可再切换回 pytorch-cpu 索引
+
+# 配置镜像索引（优先查询腾讯镜像，其次阿里镜像）
+[[tool.uv.index]]
+name = "tencent"
+url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+default = true
+
+[[tool.uv.index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+
+# PyTorch 官方 CPU 索引（仅当 [tool.uv.sources] 指定时使用）
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+
+# PyTorch 官方 CUDA 12.4 索引（Windows GPU 版）
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+
+[tool.uv.workspace]
+members = ["."]
