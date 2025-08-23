@@ -186,3 +186,4 @@ hy3dpaint/ckpt/
 
 save_dir
 test_outputs
+.venv-win
